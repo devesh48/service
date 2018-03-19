@@ -7,7 +7,7 @@ class myControllerClass {
     hello(req,res,next) {
         console.log("inside Hello controller");
         return new Promise((resolve, reject) => {
-            service.helloServ().then(function (result) {
+            service.helloService().then( function (result) {
                 resolve(result);
             }).catch((e)=>{
                 reject(e);
