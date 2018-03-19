@@ -6,7 +6,7 @@ class responseHandler {
     sendResponse(req,res) {
         console.log("inside response handler");
         //res.send(res);
-        res.json(res.body);
+        res.json(res);
     }
 }
 
