@@ -4,19 +4,28 @@ const myService = require('../services/myService');
 
 class myControllerClass {
 
-    hello(req,res,next) {
-        console.log("inside Hello controller");
-        return new Promise((resolve, reject) => {
-            myService.helloService().then( function (result) {
-                resolve(result);
-            }).catch((e)=>{
-                reject(e);
-            });
+    hello (req,res,next){
+        console.log("Logging from inside of HELLO function");
+        function Controller(){
+            return new Promise(
+                function(resolve , reject){
+                    myService.helloService().then(
+                        (HelloResponse)=>{
+                            resolve(HelloResponse);
+                        }
+                    ).catch((e)=>{
+                        reject(e);
+                    });
+                });
+        }
+        Controller().then((result)=>{
+            res.body = result;
             next();
+            console.log("Logging from inside of HELLO function "+res.body);
         });
     }
 
-    getyourName (req,res,next){
+    getYourName (req,res,next){
         console.log("Logging from inside of GET_YOUR_NAME function");
         return new Promise ((fulfill, reject)=>{
             let name = req.params.name;
@@ -36,7 +45,7 @@ class myControllerClass {
         });
     }
 
-    getyourName2 (req,res){
+    getYourName2 (req,res){
         console.log("Logging from inside of GET_YOUR_NAME_2 function");
         let name = req.params.name;
         myService.getName2(name)
@@ -45,10 +54,10 @@ class myControllerClass {
             });
     }
 
-    getmyData (req,res){
+    getMyData (req,res){
         console.log("Logging from inside of GET_MY_DATA function");
         let name = req.params.name;
-        myService.getmyData(name).then(
+        myService.getData(name).then(
             (record)=>{
                 res.send(record);
             }

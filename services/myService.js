@@ -5,10 +5,13 @@ class myServiceClass {
 
     helloService(req,res) {
         console.log("inside Hello Service");
-        return new Promise((resolve, reject) => {
+        var result = new Promise((resolve, reject) => {
             const hello = "Hello from the NodeJs first program";
             resolve (hello);
+        }).then((val)=>{return val}).catch((e)=>{
+            reject(e);
         });
+        return result;
     }
 
     getName (inputName) {
@@ -27,7 +30,7 @@ class myServiceClass {
         });
     }
 
-    getmyData (inputName){
+    getData (inputName){
         return new Promise ((resolve, reject)=>{
             var info = {name, email,phone};
             info.name = inputName;

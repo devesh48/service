@@ -5,8 +5,8 @@ const ResponseHandler = require ('../controller/responseHandler');
 
 
 router.get('/service/hello',control.hello,ResponseHandler.sendResponse);
-router.get('/service/yourName:name', control.getyourName,ResponseHandler.sendResponse);
-router.get('/service/getData:name',control.getmyData);
-router.get ('/service/yourName2:name',control.getyourName2);
+router.get('/service/yourName:name', control.getYourName,ResponseHandler.sendResponse);
+router.get('/service/getData:name',control.getMyData);
+router.get ('/service/yourName2:name',control.getYourName2);
 
 module.exports = router;
