@@ -14,15 +14,15 @@ class myServiceClass {
         return result;
     }
 
-    getName (inputName) {
+    getNameService (inputName) {
         return new Promise ((resolve , reject)=>{
-            let name = {"first": " ","last" : "upadhyay"}
+            let name = {"first": "Hello","last" : "upadhyay"}
             name.first = inputName;
             resolve(name);
         });
     }
 
-    getName2 (inputName){
+    getName2Service (inputName){
         return new Promise ((resolve,reject)=>{
             let name = {"first": " ","last" : "singh"}
             name.first = inputName;
@@ -30,9 +30,9 @@ class myServiceClass {
         });
     }
 
-    getData (inputName){
+    getDataService (inputName){
         return new Promise ((resolve, reject)=>{
-            var info = {name, email,phone};
+            var info = {name : "", email: "",phone : ""};
             info.name = inputName;
             info.email = "abc@trav.com";
             info.phone = "1234556";

@@ -27,20 +27,25 @@ class myControllerClass {
 
     getYourName (req,res,next){
         console.log("Logging from inside of GET_YOUR_NAME function");
-        return new Promise ((fulfill, reject)=>{
-            let name = req.params.name;
-            if(name == null)
-            {
-                console.log(`NAME is null or blank`);
-                reject();
-            }
-            myService.getName(name).then(
-                (fullname)=>{
-                    fulfill(fullname);
+        function getter() {
+            return new Promise ((fulfill, reject)=>{
+                let name = req.params.name;
+                if(name == null || name == undefined)
+                {
+                    console.log(`NAME is null or Undefined`);
+                    reject();
                 }
-            ).catch((e)=>{
-                reject(e);
+                myService.getNameService(name).then(
+                    (fullname)=>{
+                        fulfill(fullname);
+                    }
+                ).catch((e)=>{
+                    reject(e);
+                });
             });
+        }
+        getter().then((result)=>{
+            res.body = result;
             next();
         });
     }
@@ -48,7 +53,7 @@ class myControllerClass {
     getYourName2 (req,res){
         console.log("Logging from inside of GET_YOUR_NAME_2 function");
         let name = req.params.name;
-        myService.getName2(name)
+        myService.getName2Service(name)
             .then((records) => {
                 res.send(records);
             });
@@ -57,9 +62,10 @@ class myControllerClass {
     getMyData (req,res){
         console.log("Logging from inside of GET_MY_DATA function");
         let name = req.params.name;
-        myService.getData(name).then(
+        myService.getDataService(name).then(
             (record)=>{
                 res.send(record);
+               // next();
             }
         );
     }
