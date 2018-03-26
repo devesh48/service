@@ -1,0 +1,84 @@
+const IUXLogger = require('iux-core-node').IUXLogger;
+const IUXException = require('iux-core-node').IUXException;
+const IUXResponse = require('iux-core-node').IUXResponse;
+const reference = require('iux-core-node').Reference;
+const myService = require('../services/myService');
+const _ = require('lodash');
+
+class myCont {
+
+    hello (req,res,next){
+        IUXLogger.info("Logging from inside of HELLO function");
+        function Controller(){
+            return new Promise(
+                function(resolve , reject){
+                    myService.sayHello().then(
+                        (HelloResponse)=>{
+                            resolve(HelloResponse);
+                            //next(HelloResponse);
+                        }
+                    ).catch((e)=>{
+                        reject(e);
+                    });
+                     //next();
+                });
+        }
+        Controller().then((result)=>{
+            res.body = result;
+            next();
+            IUXLogger.info("Logging from inside of HELLO function"+res.body);
+        });
+    }
+
+    getyourName (req,res,next){
+        IUXLogger.info("Logging from inside of GET_YOUR_NAME function");
+        return new promise ((fulfill, reject)=>{
+            let name = req.params.name;
+            if(name == null || _.isEmpty(name))
+            {
+                IUXLogger.error(`NAME is null or blank`);
+                err = new IUXException.ErrorEntry(400,message);
+                reject(err);
+            }
+            myService.getName(name).then(
+                (fullname)=>{
+                    fulfill(fullname);
+                }
+            ).catch((e)=>{
+                reject(e);
+            });
+            next();
+        });
+    }
+
+    getyourName2 (req,res){
+        IUXLogger.info ("Logginf from inside of GET_YOUR_NAME_2 function");
+        let name = req.params.name;
+        myService.getName2(name)
+            .then((records) => {
+                res.send(IUXResponse(records));
+            })
+            .catch((err) => {
+                if (!err.caught) {
+                    IUXLogger.error('myController: error in getyourname function ' + err);
+                    new IUXException.TechnicalError(500, err, name);
+                }
+            });
+    }
+
+    getmyData (req,res){
+        IUXLogger.info("Logging from inside of GET_MY_DATA function");
+        let name = req.params.name;
+        myService.getmyData(name).then(
+            (record)=>{
+                res.send(IUXResponse(record));
+            }
+        ).catch((err) => {
+            if (!err.caught) {
+                IUXLogger.error('myController: error in getyourname function ' + err);
+                new IUXException.TechnicalError(500, err, name);
+            }
+        });
+    }
+}
+module.exports = new myCont;
